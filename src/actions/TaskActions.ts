@@ -1,5 +1,6 @@
 "use server";
 
+import { FormSchema } from "@/components/TextAreaForm/TextAreaForm";
 import prisma from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -11,15 +12,12 @@ export async function AddANewTask(formData: FormData) {
       data: {
         TaskTitle: formData.get("TaskTitle") as string,
         TaskDescription: formData.get("TaskDescription") as string,
-        TaskRelevantFiles: formData.get("TaskRelevantFiles") as string,
-        TaskRelevantLinks: formData.get("TaskRelevantLinks") as string,
-        TaskSubmissionDeadline: formData.get(
-          "TaskSubmissionDeadline"
-        ) as string,
+        TaskBasicDeadline: formData.get("TaskBasicDeadline") as string,
+        TaskAdvancedDeadline: formData.get("TaskBasicDeadline") as string,
       },
     });
 
-    revalidatePath("/professor");
+    // revalidatePath("/professor");
   } catch (error) {
     handlePrismaError(error); // Centralized error handling
   }
@@ -33,10 +31,8 @@ export async function getTasks() {
       id: task.TaskID,
       TaskTitle: task.TaskTitle,
       TaskDescription: task.TaskDescription,
-      TaskStatus: task.TaskStatus,
-      TaskRelevantFiles: task.TaskRelevantFiles,
-      TaskRelevantLinks: task.TaskRelevantLinks,
-      TaskSubmissionDeadline: task.TaskSubmissionDeadline,
+      TaskBasicDeadline: task.TaskBasicDeadline,
+      TaskAdvancedDeadline: task.TaskAdvancedDeadline,
     }));
   } catch (error) {
     console.error("Error fetching Tasks:", error);
@@ -56,6 +52,48 @@ export async function getTaskById(id: string) {
   } catch (error) {
     console.error("Error fetching Task:", error);
     return null;
+  }
+}
+
+export async function AddNewTaskDetails(
+  data: Zod.infer<typeof FormSchema>,
+  taskId: string
+) {
+  try {
+    await prisma.taskDetail.create({
+      data: {
+        TaskTaskID: taskId,
+        TaskDetail: data.TaskDetails,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching Task:", error);
+  }
+}
+
+export async function getTaskDetailsById(id: string) {
+  try {
+    const TaskDetailsAll = await prisma.taskDetail.findMany({
+      where: {
+        TaskTaskID: id, // Assumes the Task `id` field is a unique identifier in your database
+      },
+    });
+    return TaskDetailsAll;
+  } catch (error) {
+    console.error("Error fetching Task:", error);
+    return null;
+  }
+}
+
+export async function onSubmit(data: Zod.infer<typeof FormSchema>) {
+  try {
+    await prisma.taskDetail.create({
+      data: {
+        TaskDetail: data.TaskDetails,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching Task:", error);
   }
 }
 

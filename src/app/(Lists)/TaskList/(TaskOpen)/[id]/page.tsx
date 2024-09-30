@@ -1,14 +1,37 @@
-import { getTaskById } from '@/actions/TaskActions'; // Import the Prisma action
+"use client";
+
+import { getTaskById, getTaskDetailsById } from '@/actions/TaskActions';
+import TextAreaForm from '@/components/TextAreaForm/TextAreaForm';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
+const TaskDashboard = ({ params }: { params: { id: string } }) => {
 
-const TaskDashboard = async ({ params }: { params: { id: string } }) => {
+    const [Task, setTask] = useState<any>(null);
+    const [TaskDetails, setTaskDetails] = useState<any[]>([]); // Ensuring TaskDetails is always an array
 
-    const Task = await getTaskById(params.id);
+    // Function to fetch task and task details
+    const fetchData = async () => {
+        try {
+            const task = await getTaskById(params.id);
+            const taskDetails = await getTaskDetailsById(params.id);
+
+            setTask(task);
+            // Ensure taskDetails is never null, fallback to an empty array if null
+            setTaskDetails(taskDetails ?? []);
+        } catch (error) {
+            console.error("Error fetching task or task details:", error);
+        }
+    };
+
+    // useEffect to call the fetchData function when the component mounts
+    useEffect(() => {
+        fetchData();
+    }, [params.id]); // Ensure useEffect runs when params.id changes
 
     if (!Task) {
-        return <p>Task not found or an error occurred.</p>;
+        return <p>Loading...</p>; // Handle the loading state
     }
 
     return (
@@ -21,25 +44,33 @@ const TaskDashboard = async ({ params }: { params: { id: string } }) => {
                 </Button>
             </Link>
 
-            <div className='flex'>
+            <div>
                 <div>
-                    <h1 className="text-2xl font-bold mb-4">Task Dashboard</h1><br /><br />
-                    <h1 className="text-2xl font-bold mb-4">Task ID: {Task.TaskID}</h1>
+                    <br />
+                    <h1 className="text-2xl font-bold mb-4">Task Dashboard</h1><br />
                     <h1 className="text-2xl font-bold mb-4">Task Title: {Task.TaskTitle}</h1>
                     <h1 className="text-2xl font-bold mb-4">Task Description: {Task.TaskDescription}</h1>
-                    <h1 className="text-2xl font-bold mb-4">Task Status: {Task.TaskStatus}</h1>
-                    <h1 className="text-2xl font-bold mb-4">Task Relevant Files: {Task.TaskRelevantFiles}</h1>
-                    <h1 className="text-2xl font-bold mb-4">Task Relevant Links: {Task.TaskRelevantLinks}</h1>
-                    <h1 className="text-2xl font-bold mb-4">Task Sumission Deadline: {Task.TaskSubmissionDeadline}</h1>
+                    <h1 className="text-2xl font-bold mb-4">Task Basic Deadline: {Task.TaskBasicDeadline}</h1>
+                    <h1 className="text-2xl font-bold mb-4">Task Advanced Deadline: {Task.TaskAdvancedDeadline}</h1>
+
+                    <h1 className="text-2xl font-bold mb-4">Task Details:</h1>
+                    {TaskDetails.length > 0 ? (
+                        TaskDetails.map((TaskDetail) => (
+                            <div key={TaskDetail.TaskDetailID}>
+                                <p className="text-xl font-bold mb-2">{TaskDetail.TaskDetail}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No task details available</p>
+                    )}
                 </div>
 
+                <div>
+                    <br /><br /><TextAreaForm taskId={params.id} />
+                </div>
             </div>
-
-
-            {/* Add more components as needed */}
         </div>
     );
 };
-
 
 export default TaskDashboard;

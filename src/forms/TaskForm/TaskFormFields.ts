@@ -8,18 +8,13 @@ const TaskFormFields: FormFieldProps[] = [
     placeholder: "Enter Task Description",
   },
   {
-    name: "TaskRelevantFiles",
-    label: "Relevant Files",
-    placeholder: "Upload Files",
+    name: "TaskBasicDeadline",
+    label: "Basic Deadline",
+    placeholder: "Enter a Date",
   },
   {
-    name: "TaskRelevantLinks",
-    label: "Relevant Links",
-    placeholder: "Enter Links",
-  },
-  {
-    name: "TaskSubmissionDeadline",
-    label: "Submission Deadline",
+    name: "TaskAdvancedDeadline",
+    label: "Advanced Deadline",
     placeholder: "Enter a Date",
   },
 ];

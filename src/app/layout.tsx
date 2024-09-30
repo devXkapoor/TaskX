@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Header from "@/components/HeaderComponents/Header";
 import "./globals.css";
-import Footer from "@/components/FooterComponents/Footer";
 import { ThemeProvider } from "@/components/theme-provider"
 
 
@@ -27,10 +25,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
           {children}
         </ThemeProvider>
-
       </body>
     </html>
   );

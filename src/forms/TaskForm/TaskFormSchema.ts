@@ -7,13 +7,8 @@ const TaskFormSchema = z.object({
   TaskDescription: z.string().min(2, {
     message: "Task's description must be at least 2 characters long.",
   }),
-  TaskRelevantFiles: z.string().min(2, {
-    message: "Task's relevant files must be at least 2 characters long.",
-  }),
-  TaskRelevantLinks: z.string().min(2, {
-    message: "Task's relevant links must be at least 2 characters long.",
-  }),
-  TaskSubmissionDeadline: z.string(),
+  TaskBasicDeadline: z.string(),
+  TaskAdvancedDeadline: z.string(),
 });
 
 export default TaskFormSchema;

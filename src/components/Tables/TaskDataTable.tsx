@@ -12,10 +12,8 @@ export type TaskTableColumns = {
     // TaskID: string;
     TaskTitle: string;
     TaskDescription: string;
-    TaskStatus: string | null;
-    TaskRelevantFiles: string;
-    TaskRelevantLinks: string;
-    TaskSubmissionDeadline: string;
+    TaskBasicDeadline: string;
+    TaskAdvancedDeadline: string;
 };
 
 export default function TaskDataTable() {
@@ -55,52 +53,28 @@ export default function TaskDataTable() {
             cell: ({ row }) => <div>{row.getValue("TaskDescription")}</div>,
         },
         {
-            accessorKey: "TaskStatus",
+            accessorKey: "TaskBasicDeadline",
             header: ({ column }) => (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Status <CaretSortIcon className="ml-2 h-4 w-4" />
+                    Basic Deadline <CaretSortIcon className="ml-2 h-4 w-4" />
                 </Button>
             ),
-            cell: ({ row }) => <div>{row.getValue("TaskStatus")}</div>,
+            cell: ({ row }) => <div>{row.getValue("TaskBasicDeadline")}</div>,
         },
         {
-            accessorKey: "TaskRelevantFiles",
+            accessorKey: "TaskAdvancedDeadline",
             header: ({ column }) => (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Relevant Files for the Task <CaretSortIcon className="ml-2 h-4 w-4" />
+                    Advanced Deadline <CaretSortIcon className="ml-2 h-4 w-4" />
                 </Button>
             ),
-            cell: ({ row }) => <div>{row.getValue("TaskRelevantFiles")}</div>,
-        },
-        {
-            accessorKey: "TaskRelevantLinks",
-            header: ({ column }) => (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Relevant Links for the Task <CaretSortIcon className="ml-2 h-4 w-4" />
-                </Button>
-            ),
-            cell: ({ row }) => <div>{row.getValue("TaskRelevantLinks")}</div>,
-        },
-        {
-            accessorKey: "TaskSubmissionDeadline",
-            header: ({ column }) => (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Submission Deadline <CaretSortIcon className="ml-2 h-4 w-4" />
-                </Button>
-            ),
-            cell: ({ row }) => <div>{row.getValue("TaskSubmissionDeadline")}</div>,
+            cell: ({ row }) => <div>{row.getValue("TaskAdvancedDeadline")}</div>,
         },
     ];
 
