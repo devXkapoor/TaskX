@@ -59,7 +59,7 @@ const TaskDashboard = ({ params }: { params: { id: string } }) => {
             </div>
 
             <div>
-                <TextAreaForm taskId={params.id} />
+                <br /><br /><TextAreaForm taskId={params.id} />
             </div>
         </div>
     );
