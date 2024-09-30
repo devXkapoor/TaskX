@@ -15,8 +15,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import prisma from "@/lib/db";
-import { AddANewTask, AddNewTaskDetails } from "@/actions/TaskActions"
+import { AddNewTaskDetails } from "@/actions/TaskActions"
 
 export const FormSchema = z.object({
     TaskDetails: z.string()
