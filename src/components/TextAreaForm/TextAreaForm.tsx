@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { AddNewTaskDetails } from "@/actions/TaskActions"
+import { Textarea } from "../ui/textarea"
 
 export const FormSchema = z.object({
     TaskDetails: z.string()
@@ -47,7 +48,7 @@ export default function TextAreaForm({ taskId }: { taskId: string }) {
                         <FormItem>
                             <FormLabel className="text-2xl ">Task Details</FormLabel>
                             <FormControl>
-                                <Input placeholder="Complete Web Dev Assignment.." {...field} />
+                                <Textarea placeholder="Complete Web Dev Assignment.." {...field} />
                             </FormControl>
                             <FormDescription>
                             </FormDescription>
